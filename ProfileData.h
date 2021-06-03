@@ -13,18 +13,23 @@
 
 using namespace std;
 
-struct User{
-    char[20] name; //name is always unique
-    char[3] age;
-    char[30] occupation;
+struct User {
+    char name[20]; //name is always unique
+    char age[3];
+    char occupation[30];
 };
 
 class ProfileData{
     //add to a file
+    public:
+        //add user to file 
+        void addUser();
 
-    //grab a user based on a ptr (index)
+        //grab a user based on a ptr (index)
+        User getUser(int index);
 
-    //support PrintAll
+        //support PrintAll
+        string printAll();
 }
 
 //printAll with accompany with list of friends from friendship graph

@@ -1,10 +1,18 @@
 {
+    "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
-        "algorithm": "cpp",
-        "fstream": "cpp",
+        "xstring": "cpp",
+        "iosfwd": "cpp",
         "iostream": "cpp",
-        "sstream": "cpp",
-        "string": "cpp",
-        "vector": "cpp"
-    }
+        "ostream": "cpp",
+        "initializer_list": "cpp",
+        "type_traits": "cpp",
+        "xutility": "cpp",
+        "exception": "cpp",
+        "xlocale": "cpp",
+        "vector": "cpp",
+        "utility": "cpp",
+        "iterator": "cpp"
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
