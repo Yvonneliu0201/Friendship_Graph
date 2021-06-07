@@ -54,12 +54,13 @@ int main(int argc, char** argv){
     // 4. List FriendsInfo of user1: list name,age,occupation of all friends, assumming user1 exists
     // 5. List all users ranging user1 to user2 inclusive: name, age, occupation, friendlist
     // 6. Get User Info, given index, print name, age, occupation, friendlist
-    // 7. Exit
+    // 7. Get User Info, given name, print name, age, occupation, friendlist
+    // 8. Exit
 
     int menuNum = 0;
-    string menu = "Welcome to Friendship!\n Menu Items:\n 1. Insert New User\n 2. Add Friendship between Two Users\n 3. Print All\n 4. List Friends Info of a User\n 5. List All Users from User1 to User2\n 6. Get User Info Given Index\n 7. Exit\n Enter a Number: ";
+    string menu = "Welcome to Friendship!\n Menu Items:\n 1. Insert New User\n 2. Add Friendship between Two Users\n 3. Print All\n 4. List Friends Info of a User\n 5. List All Users from User1 to User2\n 6. Get User Info Given Index\n 7. Get User Info Given Name\n 8. Exit\n Enter a Number: ";
 
-    while(menuNum != 7){
+    while(menuNum != 8){
         cout << menu;
         cin >> menuNum;
 
@@ -201,8 +202,30 @@ int main(int argc, char** argv){
     
         }
         else if(menuNum == 7){
+            //find user info by traversing rbtree
+            string userInput = "";
+            while(userInput == ""){
+                cout << "Enter a Name: ";
+                getline(cin,userInput);
+            }
+
+            // after getting name, search in rbtree output index
+            int index = rbTree.getIndex(userInput);
+            if(index < 0){
+                cout << "User Not Found" << endl;
+            }
+            else{
+                cout << records.printUser(index) << endl;
+            }
+
+            //once done
+            cout << "end of PrintUser... \nPress Enter to return to menu:\n" ;
+            cin.ignore();
+            menuNum = 0;
+        }
+        else if(menuNum == 8){
             // 7. Exit
-            menuNum = 7;
+            menuNum = 8;
         }
         else{
             cin.clear(); //clear bad input flag
