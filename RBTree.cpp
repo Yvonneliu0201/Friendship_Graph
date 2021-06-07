@@ -1,5 +1,6 @@
 #include "RBTree.h"
 #include <string>
+#include <cstring>
 #include <iostream>
 
 using namespace std;
@@ -62,7 +63,7 @@ int RBTree::getIndex(string name){
 
     if(searchedNode != NULL){
         //return the index
-        return searchNode->index;
+        return searchedNode->index;
     }
     else{
         return -1;
@@ -128,12 +129,12 @@ RBNode* RBTree::insert(RBNode* rt, RBNode* node){
         return node;
     }
     //if root exists, inserted node name is less than rt node name, go to left
-    if(strcmp(node->name, rt->name) < 0){
+    if(node->name < rt->name){
         rt->left = insert(rt->left, node);
         rt->left->parent = rt;
     }
     //if root exists, inserted node name is greater than rt node name, go to right
-    else if(strcmp(node->name, rt->name) > 0){
+    else if(node->name > rt->name){
         rt->right = insert(rt->right,node);
         rt->right->parent = rt;
     }
@@ -143,7 +144,7 @@ RBNode* RBTree::insert(RBNode* rt, RBNode* node){
 //searches for a node in RBTree with name 'name'
 RBNode* RBTree::search(string name){
     //start at root, if name < root->name, go left, else go right, if null return null
-    RBTree* temp = root;
+    RBNode* temp = root;
     if(temp == NULL){
         //could not find a node with string name
         return NULL;
@@ -151,15 +152,15 @@ RBNode* RBTree::search(string name){
 
     while(temp){
         //if find node with same string
-        if(strcmp(name, temp->name) == 0){
+        if(name == temp->name){
             //return int 
             return temp;
         }
-        else if(strcmp(name, temp->name) < 0){
+        else if(name < temp->name){
             //if name not found, if name is less then temp->name go left
             temp = temp->left;
         }
-        else if(strcmp(name, temp->name) > 0){
+        else if(name > temp->name){
             //if name is greater than temp->name go right
             temp = temp->right;
         }
@@ -174,7 +175,7 @@ void RBTree::sort(RBNode* rt, RBNode* node){
     RBNode* nodeGrandParent = NULL;
     RBNode* nodeUncle = NULL;
 
-    while( (node != root) && (p->parent->color == "red") ){
+    while( (node != root) && (node->color != "black") && (node->parent->color == "red") ){
         nodeParent = node->parent;
         nodeGrandParent = node->parent->parent;
 
@@ -212,8 +213,8 @@ void RBTree::sort(RBNode* rt, RBNode* node){
             //uncle is red, then recolor
             if(nodeUncle != NULL && nodeUncle->color == "red"){
                 nodeGrandParent->color = "red";
-                nodeParent->color = 'black';
-                nodeUncle->color = 'black';
+                nodeParent->color = "black";
+                nodeUncle->color = "black";
                 node = nodeGrandParent;
             }
             else{ //if uncle is black then check ptr position

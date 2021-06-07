@@ -1,0 +1,11 @@
+Name,Age,Occupation,Friends
+William Costa,47,Armed forces logistics/support,"Elizabeth Yang,Jo Stuart,"
+Joseph Graham,69,Chief Marketing Officer,"Sarah Perez,Julia Long,"
+Michael Ellis,23,Health service manager,"Elizabeth Yang,Jennifer Murphy,"
+Sarah Perez,87,Sports coach,"Joseph Graham,"
+Julia Long,20,Chartered loss adjuster,"Joseph Graham,"
+Elizabeth Yang,39,Legal secretary,"William Costa,Michael Ellis,Jennifer Murphy,Jo Stuart,Ian Jones,Derek Davis,"
+Jennifer Murphy,27,Community development worker,"Michael Ellis,Elizabeth Yang,Ian Jones,"
+Jo Stuart,32,Scientist product/process dev,"William Costa,Elizabeth Yang,"
+Ian Jones,37,Ranger/warden,"Elizabeth Yang,Jennifer Murphy,Derek Davis,"
+Derek Davis,48,Fashion designer,"Elizabeth Yang,Ian Jones,"

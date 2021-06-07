@@ -19,7 +19,7 @@ struct RBNode{
     RBNode* left;
     RBNode* right;
     RBNode* parent; 
-}
+};
 
 class RBTree{
     public:
@@ -45,5 +45,5 @@ class RBTree{
         void rotateLeft(RBNode* rt, RBNode* node);
     private:
         RBNode* root;
-}
+};
 #endif
