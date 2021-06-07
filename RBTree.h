@@ -44,36 +44,8 @@ class RBTree{
         void rotateRight(RBNode* rt, RBNode* node);
         void rotateLeft(RBNode* rt, RBNode* node);
 
-        //range query
-                /* The functions prints all the keys
-        which in the given range [k1..k2].
-            The function assumes than k1 < k2 */
-        // void Print(RBNode* rt, string lowerName, string upperName)
-        // {
-        //     /* base case */
-        //     if(rt == NULL){
-        //         return;
-        //     }
-            
-        //     /* Since the desired o/p is sorted,
-        //         recurse for left subtree first
-        //         If root->data is greater than k1,
-        //         then only we can get o/p keys
-        //         in left subtree */
-        //     if ( lowerName < rt->name )
-        //         Print(rt->left, lowerName, upperName);
-            
-        //     /* if rt's name lies in range,
-        //     then prints rt's name */
-        //     if ( lowerName <= rt->name && upperName >= rt->name )
-        //         cout<<rt->name<<" ";
-            
-        //     /* If rt->name is smaller than upperName,
-        //         then only we can get o/p keys
-        //         in right subtree */
-        //     if ( upperName > rt->name )
-        //         Print(rt->right, lowerName, upperName);
-        // }
+        //range query, should output a int vector of indexes in the order of the range
+        void listInfo(vector<int> &v, RBNode* rt,string lowerName, string upperName);
     private:
         RBNode* root;
 };

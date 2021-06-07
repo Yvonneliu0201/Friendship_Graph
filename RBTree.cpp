@@ -264,4 +264,23 @@ void RBTree::addUser(string name, int index){
     sort(root, temp);
 }
 
+void RBTree::listInfo(vector<int> &v, RBNode* rt, string lowerName, string upperName){
+    //base case
+    if(rt == NULL){
+        return;
+    }
+
+    //lower bound string is less than rt, the go left
+    if(lowerName < rt->name){
+        listInfo(v,rt->left,lowerName,upperName);
+    }
+    //if rt-> is in between lower and upper bound, push index to vector
+    if(lowerName <= rt->name && upperName >= rt->name){
+        v.push_back(rt->index);
+    }
+    // upper bound is greater than rt, than go right
+    if(upperName > rt->name){
+        listInfo(v,rt->right,lowerName,upperName);
+    }
+}
 

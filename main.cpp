@@ -85,20 +85,26 @@ int main(int argc, char** argv){
             
 
             //check if name exists in RB, if so, throw it
-            
+            if(rbTree.getIndex(nameInput) != -1){
+                //user exists
+                cout << "User Already Exists! \n Press Enter to return to menu:\n" ;
+                cin.ignore();             
+                menuNum = 0;
+            }
+            else{
+                //once got info then,
+                // add to ProfileData, RBTree, Friendship Graph
+                // output.open("Profile_Data.csv", ios_base::binary);
+                records.addUser(nameInput,ageInput,occupationInput);
+                //output.close();
+                rbTree.addUser(nameInput,records.getTotalSize()-1);
+                //add to friendship graph with empty ll
 
-            //once got info then,
-            // add to ProfileData, RBTree, Friendship Graph
-           // output.open("Profile_Data.csv", ios_base::binary);
-            records.addUser(nameInput,ageInput,occupationInput);
-            //output.close();
-            rbTree.addUser(nameInput,records.getTotalSize()-1);
-            //add to friendship graph with empty ll
-
-            //once done, set all inputs to "" and menuNum=0
-            cout << "User Added! \n Press Enter to return to menu:\n" ;
-            cin.ignore();             
-            menuNum = 0;
+                //once done, set all inputs to "" and menuNum=0
+                cout << "User Added! \n Press Enter to return to menu:\n" ;
+                cin.ignore();             
+                menuNum = 0;
+            }
 
         }// end addUser
         else if(menuNum == 2){
@@ -143,13 +149,20 @@ int main(int argc, char** argv){
                 getline(cin,name1);
             }
 
-            //run function to list all friends info
-            //TEMP DUMMY FILLER
-            cout << "This is where I would print all the friends" << endl;
-            cout << "Press Enter to return to menu:\n";
-            cin.ignore();
-            cin.ignore();
-            menuNum = 0;    
+            //check if user exists
+            if(rbTree.getIndex(name1) == -1){
+                cout << "User Does Not Exist! \n Press Enter to return to menu:\n" ;
+                cin.ignore();             
+                menuNum = 0;
+            }
+            else{
+                //run function to list all friends info
+                //TEMP DUMMY FILLER
+                cout << "This is where I would print all the friends" << endl;
+                cout << "Press Enter to return to menu:\n";
+                cin.ignore();
+                menuNum = 0;  
+            }  
         }// end listFriendsInfo(name)
         else if(menuNum == 5){
             // 5. List all users ranging user1 to user2 inclusive: name, age, occupation, friendlist
@@ -167,11 +180,39 @@ int main(int argc, char** argv){
             }
 
             //do the function and print
-            //TEMP FILLER 
-            cout << "This is where I would print all the users ranging from name1 to name2" << endl;
-            cout << "Press Enter to return to menu:\n";
-            cin.ignore();
-            menuNum = 0;   
+            //check if name1 and name 2 are in the tree first
+            if(rbTree.getIndex(name1) == -1 || rbTree.getIndex(name2) == -1){
+                //one is not in tree, exit
+                cout << "At least one of the users is not in the tree\n";
+                cout << "Press Enter to return to menu:\n";
+                cin.ignore();
+                menuNum = 0;
+            }
+            else{
+                //users are valid, then print
+                vector<int> order;
+                rbTree.listInfo(order, rbTree.getRoot(), name1, name2);
+
+                //order now has list in indexes, iterate through and print users inclusive
+                for(vector<int>::iterator it = begin(order); it != end(order); ++it){
+                    string printUserAndFriends = "";
+
+                    //get string from profiledata and append
+                    printUserAndFriends = printUserAndFriends + records.printUser(*it);
+                    //get list of friends from friendshipgraph and append
+                    printUserAndFriends = printUserAndFriends + ",Friend,List,Dummy";
+
+                    // cout printUserAndFriends
+                    cout << printUserAndFriends << endl;
+                }
+                
+                //once done printing 
+                cout << "Print ListInfo is Complete" << endl;
+                cout << "Press Enter to return to menu:\n";
+                cin.ignore();
+                menuNum = 0;  
+            }
+             
         }// end ListInfo(Lower,Upper)
         else if(menuNum == 6){
             // 6. Get User Info given index, print name, age, occupation, friendlist
@@ -180,6 +221,9 @@ int main(int argc, char** argv){
                 //get input 
                 cout << "Enter index of User: ";
                 cin >> index;
+                if(index >= records.getTotalSize()){
+                    cout << "Out of Range!" << endl;
+                }
             }
 
             //once given index append and print
