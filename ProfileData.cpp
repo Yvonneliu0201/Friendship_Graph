@@ -67,7 +67,7 @@ string ProfileData::getName(int index) const{
 string ProfileData::getAge(int index) const{
     //using index and multiply by 53
     //open file and go to line index
-    char* ageBuffer = new char[20];
+    char* ageBuffer = new char[3];
 
     ifstream myfile(outputFile,ios::binary);
     myfile.seekg(53*index+20); //skip the age
