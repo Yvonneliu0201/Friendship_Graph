@@ -127,13 +127,13 @@ RBNode* RBTree::search(string name){
     RBNode* temp = root;
     if(temp == NULL){
         //could not find a node with string name
-        cout << "rbtree root is null" << endl;
+        //cout << "rbtree root is null" << endl;
         return NULL;
     }
 
     while(temp){
         //if find node with same string
-        cout << "temp->name: '" << temp->name <<"'"<< endl;
+        //cout << "temp->name: '" << temp->name <<"'"<< endl;
         if(name == temp->name){
             //return int 
             return temp;
@@ -148,7 +148,7 @@ RBNode* RBTree::search(string name){
         }
     }
     //if not found, return -1 to indicate not found
-    cout << "end while loop of search" << endl;
+    //cout << "end while loop of search" << endl;
     return NULL;
 }
 
@@ -242,7 +242,7 @@ void RBTree::addUser(string name, int index){
 
     //then sort
     sort(root, temp);
-    cout << "'" << name <<  "'" << " has been added to rbTree!" << endl;
+    //cout << "'" << name <<  "'" << " has been added to rbTree!" << endl;
 }
 
 //sets a vector to indexes of all users in between lower and upper bound

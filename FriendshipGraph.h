@@ -15,7 +15,7 @@ struct Node{
 
 struct GraphNode{
     string name; //user
-    Node* head; //friend list    
+    Node* head = NULL; //friend list, initialize with null   
 };
 
 class FriendList{

@@ -28,18 +28,22 @@ int main(int argc, char** argv){
     input.open(argv[1], ios_base::in | ios_base::binary);
 
     vector<vector<string>> allUserFriends;
+
+    //skip the first line with default category names but just reading it
+    getline(input,line);
+
     //adds each line in input file to output file
      while(getline(input,line)) {
         vector<string> inputs;     
         line.erase(remove(line.begin(),line.end(),'"'),line.end());
         stringstream ss(line);
-        cout << "new line: " << endl;
+        //cout << "new line: " << endl;
         while(ss.good()) {
             getline(ss, subsitute, ',');
-            cout << subsitute << endl;
+            //cout << subsitute << endl;
             inputs.push_back(subsitute); //input is friend list
         }  
-        cout << endl;
+        //cout << endl;
         string name = inputs[0];
         string age = inputs[1];
         string occupation = inputs[2];
@@ -53,22 +57,22 @@ int main(int argc, char** argv){
 
     //once done adding all users, then its time to add friends to graph
     //iterate allUserFriends
-    cout << "before adding friends" << endl;
+    //cout << "before adding friends" << endl;
     for (int i = 0; i < allUserFriends.size(); i++) { //index of user
         for (int j = 0; j < allUserFriends[i].size(); j++){ //friends in string
             //get index of friend being added
             int friendIndex = rbTree.getIndex(allUserFriends[i][j]);
-            cout << "user1 name: '" << records.getName(i) <<"'"<< endl;
+            //cout << "user1 name: '" << records.getName(i) <<"'"<< endl;
             
-            cout << "friend to be added: '" << allUserFriends[i][j] << "': " << friendIndex << endl;
+            //cout << "friend to be added: '" << allUserFriends[i][j] << "': " << friendIndex << endl;
             //add friend
-            cout << "before .addFriend" << endl;
+            //cout << "before .addFriend" << endl;
             adjL.addFriend(i,friendIndex);
-            cout << "after .addFriend" << endl;
+            //cout << "after .addFriend" << endl;
         }
     }
     input.close();
-    cout << "after adding friends" << endl;
+    //cout << "after adding friends" << endl;
 
     //menu
     //features: 

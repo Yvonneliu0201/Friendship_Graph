@@ -64,7 +64,9 @@ void FriendList::getFriendIndex(vector<int> &v, int index){
 //check if they are friends, given index
 bool FriendList::areFriends(int index1, int index2){
     //return false if out of range
+    //cout << "beginning of 'areFriends'" << endl;
     if(index1 > vectorSize || index1 < 0 || index2 > vectorSize || index2 < 0){
+        //cout << "index out of bound"<< endl;
         return false;
     }
 
@@ -72,6 +74,7 @@ bool FriendList::areFriends(int index1, int index2){
     Node* temp = graph[index1].head;
     while(temp != NULL){
         //compare index
+        //cout << "inside line 77" << endl;
         if(temp->index == index2){
             //they are friends 
             return true;
@@ -98,15 +101,18 @@ void FriendList::addUser(string name){
 //adds new friend to both users given index
 void FriendList::addFriend(int index1,int index2){
     //return immed if either indexes is out of range
+    //cout << "beginning of addFriend" << endl;
     if(index1 > vectorSize || index1 < 0 || index2 > vectorSize || index2 < 0){
+        //cout << "index out of range" << endl;
         return;
     }
     //if already friends, immed return
     if(areFriends(index1,index2)){
+        //cout << "already friends" << endl;
         return;
     }
 
-    cout << "adding a new friend" << endl;
+    //cout << "adding a new friend" << endl; 
     //else, go to both indexes in vector, append Node to list
     Node* user1 = new Node;
     user1->name = graph[index1].name;
@@ -117,24 +123,40 @@ void FriendList::addFriend(int index1,int index2){
     user2->index = index2;
     user2->next = NULL; //gonna be at end of ll
 
+    //cout << "adding user2 to user1 friend list" << endl;
     //go to first index, traverse to node with next == NULL
     Node* temp1 = graph[index1].head;
-    while(temp1->next != NULL){
-        temp1 = temp1->next;
+    if(temp1 == NULL){ //make a new link list and set head
+        graph[index1].head = user2;
     }
-    //ends, then temp1 is last node
-    //set temp1-> next to user2
-    temp1->next = user2;
-
+    else{ //if head exists, then add to end
+        while(temp1->next != NULL){
+            //cout << "inside line 128" << endl;
+            temp1 = temp1->next;
+        }
+        //ends, then temp1 is last node
+        //set temp1-> next to user2
+        temp1->next = user2;
+    }
+    
+    //cout << "done..." << endl;
+    //cout << "adding user1 to user2 friend list" << endl;
     //do same for second index
     Node* temp2 = graph[index2].head;
-    while(temp2->next != NULL){
-        temp2 = temp2->next;
+    if(temp2 == NULL){ //make a new link list and set head
+        graph[index2].head = user1;
     }
-    //ends, then temp2 is last node
-    //set temp2-> next to user1
-    temp2->next = user1;
-    cout << "done adding friend" << endl;
+    else{ //if head exists, then add to end
+        while(temp2->next != NULL){
+            //cout << "inside line 145" << endl;
+            temp2 = temp2->next;
+        }
+        //ends, then temp2 is last node
+        //set temp2-> next to user1
+        temp2->next = user1;
+    }
+    //cout << "done adding friend" << endl;
+    //cout << endl;
     return; //done
 }
 
