@@ -31,7 +31,6 @@ class RBTree{
         //getters and setters
         RBNode* getRoot();
         int getIndex(string name); 
-        RBNode* getUncle(RBNode* node);
 
         //functions
         void addUser(string name, int index);
@@ -40,9 +39,9 @@ class RBTree{
         //void addFriend(string user1, string user2);
 
         //sort and rotation functions* 
-        void sort(RBNode* rt, RBNode* node); //fixes RB Tress
-        void rotateRight(RBNode* rt, RBNode* node);
-        void rotateLeft(RBNode* rt, RBNode* node);
+        void sort(RBNode* &rt, RBNode* &node); //fixes RB Tress
+        void rotateRight(RBNode* &rt, RBNode* &node);
+        void rotateLeft(RBNode* &rt, RBNode* &node);
 
         //range query, should output a int vector of indexes in the order of the range
         void listInfo(vector<int> &v, RBNode* rt,string lowerName, string upperName);

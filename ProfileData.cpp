@@ -59,7 +59,7 @@ string ProfileData::getName(int index) const{
     myfile.read(nameBuffer,20);
     myfile.close();
 
-    return nameBuffer;
+    return string(nameBuffer,20);
 
 }
 
@@ -74,21 +74,21 @@ string ProfileData::getAge(int index) const{
     myfile.read(ageBuffer,3);
     myfile.close();
 
-    return ageBuffer;
+    return string(ageBuffer,3);
 }
 
 //returns occupation of index
 string ProfileData::getOccupation(int index) const{
     //using index and multiply by 53
     //open file and go to line index
-    char* occupationBuffer = new char[20];
+    char* occupationBuffer = new char[30];
 
     ifstream myfile(outputFile,ios::binary);
     myfile.seekg(53*index+23); //skip the name and age
-    myfile.read(occupationBuffer,20);
+    myfile.read(occupationBuffer,30);
     myfile.close();
 
-    return occupationBuffer;
+    return string(occupationBuffer,30);
 }
 
 //return totalSize

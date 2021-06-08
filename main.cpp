@@ -20,31 +20,55 @@ int main(int argc, char** argv){
 
     //initialize profileData, rbtree, adjacency list
     RBTree rbTree;
+    FriendList adjL;
     ProfileData records("Profile_Data.csv");
     remove("Profile_Data.csv"); //check if output file exists
 
     //get the input .csv file
     input.open(argv[1], ios_base::in | ios_base::binary);
 
+    vector<vector<string>> allUserFriends;
     //adds each line in input file to output file
      while(getline(input,line)) {
-        vector<string> inputs;
+        vector<string> inputs;     
         line.erase(remove(line.begin(),line.end(),'"'),line.end());
         stringstream ss(line);
+        cout << "new line: " << endl;
         while(ss.good()) {
             getline(ss, subsitute, ',');
-            inputs.push_back(subsitute);
+            cout << subsitute << endl;
+            inputs.push_back(subsitute); //input is friend list
         }  
+        cout << endl;
         string name = inputs[0];
         string age = inputs[1];
         string occupation = inputs[2];
-        inputs.erase(inputs.begin(), inputs.begin()+2);
+        inputs.erase(inputs.begin(), inputs.begin()+3);
+        allUserFriends.push_back(inputs); //add list of friends to vector, corresponding to user
+        adjL.addUser(name); //adds all users to graph with no friends
         rbTree.addUser(name,fileIndex);
-        // adjL.insert(name, inputs, fileIndex);
         records.addUser(name,age,occupation);
         fileIndex = records.getTotalSize();
+    }//end get lines
+
+    //once done adding all users, then its time to add friends to graph
+    //iterate allUserFriends
+    cout << "before adding friends" << endl;
+    for (int i = 0; i < allUserFriends.size(); i++) { //index of user
+        for (int j = 0; j < allUserFriends[i].size(); j++){ //friends in string
+            //get index of friend being added
+            int friendIndex = rbTree.getIndex(allUserFriends[i][j]);
+            cout << "user1 name: '" << records.getName(i) <<"'"<< endl;
+            
+            cout << "friend to be added: '" << allUserFriends[i][j] << "': " << friendIndex << endl;
+            //add friend
+            cout << "before .addFriend" << endl;
+            adjL.addFriend(i,friendIndex);
+            cout << "after .addFriend" << endl;
+        }
     }
     input.close();
+    cout << "after adding friends" << endl;
 
     //menu
     //features: 
@@ -99,6 +123,7 @@ int main(int argc, char** argv){
                 //output.close();
                 rbTree.addUser(nameInput,records.getTotalSize()-1);
                 //add to friendship graph with empty ll
+                adjL.addUser(nameInput);
 
                 //once done, set all inputs to "" and menuNum=0
                 cout << "User Added! \n Press Enter to return to menu:\n" ;
@@ -110,9 +135,32 @@ int main(int argc, char** argv){
         else if(menuNum == 2){
             //adds friendship between two users
             //temp incomplete so just return work in progress
-            cout << "WORK IN PROGRESS \n Press Enter to return to menu:\n" ;
-            cin.ignore();
-            cin.ignore();               
+            string name1 = "";
+            string name2 = "";
+
+            //get inputs
+            while(name1 == ""){
+                cout << "Enter First Name: ";
+                getline(cin,name1);
+            }
+            while(name2 == ""){
+                cout << "Enter Second Name: ";
+                getline(cin,name2);
+            }
+
+            int index1 = rbTree.getIndex(name1);
+            int index2 = rbTree.getIndex(name2);
+            if(index1 != -1 || index2 != -1){ //indexes exist, users exist
+                //then add friendships
+                adjL.addFriend(index1,index2);
+                cout << "Friends Added!" << endl;
+            }
+            else{
+                cout << "At least one of the users is not in the tree" << endl;
+            }
+
+            cout << "Press Enter to Return to Menu" << endl;
+            cin.ignore();        
             menuNum = 0;
             
         }// end addFriendship
@@ -127,7 +175,7 @@ int main(int argc, char** argv){
                 //get string from profiledata and append
                 printUserAndFriends = printUserAndFriends + records.printUser(i);
                 //get list of friends from friendshipgraph and append
-                printUserAndFriends = printUserAndFriends + ",Friend,List,Dummy";
+                printUserAndFriends = printUserAndFriends + adjL.getFriendList(i);
 
                 // cout printUserAndFriends
                 cout << printUserAndFriends << endl;
@@ -148,18 +196,34 @@ int main(int argc, char** argv){
                 cout << "Enter name: ";
                 getline(cin,name1);
             }
-
+            
+            int index = rbTree.getIndex(name1);
             //check if user exists
-            if(rbTree.getIndex(name1) == -1){
+            if(index == -1){
                 cout << "User Does Not Exist! \n Press Enter to return to menu:\n" ;
                 cin.ignore();             
                 menuNum = 0;
             }
             else{
                 //run function to list all friends info
-                //TEMP DUMMY FILLER
-                cout << "This is where I would print all the friends" << endl;
-                cout << "Press Enter to return to menu:\n";
+                //get vector<int> of all friends of index
+                vector<int> friendIndexList;
+                adjL.getFriendIndex(friendIndexList, index);
+
+                cout << name1 << "'s Friend List:" << endl;
+                //iterate through friendIndexList
+                for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
+                    string printUserAndFriends = "";
+
+                    //get string from profiledata and append
+                    printUserAndFriends = printUserAndFriends + records.printUser(*it);
+
+                    // cout printUserAndFriends
+                    cout << printUserAndFriends << endl;
+                }
+
+                cout << "Friend List Info Completed!" << endl;
+                cout << "Press Enter to return to menu:" << endl;;
                 cin.ignore();
                 menuNum = 0;  
             }  
@@ -200,7 +264,7 @@ int main(int argc, char** argv){
                     //get string from profiledata and append
                     printUserAndFriends = printUserAndFriends + records.printUser(*it);
                     //get list of friends from friendshipgraph and append
-                    printUserAndFriends = printUserAndFriends + ",Friend,List,Dummy";
+                    printUserAndFriends = printUserAndFriends + adjL.getFriendList(*it);
 
                     // cout printUserAndFriends
                     cout << printUserAndFriends << endl;
@@ -232,8 +296,7 @@ int main(int argc, char** argv){
             //get string from profiledata and append
             printUserAndFriends = printUserAndFriends + records.printUser(index);
             //get list of friends from friendshipgraph and append
-            //DUMMY, TEMP, FILLER
-            printUserAndFriends = printUserAndFriends + ",Friend,List,Dummy";
+            printUserAndFriends = printUserAndFriends + adjL.getFriendList(index);
 
             // cout printUserAndFriends
             cout << printUserAndFriends << endl;
@@ -259,11 +322,11 @@ int main(int argc, char** argv){
                 cout << "User Not Found" << endl;
             }
             else{
-                cout << records.printUser(index) << endl;
+                cout << records.printUser(index) << adjL.getFriendList(index) << endl;
             }
 
             //once done
-            cout << "end of PrintUser... \nPress Enter to return to menu:\n" ;
+            cout << "end of PrintUser... \nPress Enter to return to menu" << endl ;
             cin.ignore();
             menuNum = 0;
         }

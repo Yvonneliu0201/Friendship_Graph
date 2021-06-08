@@ -37,26 +37,6 @@ RBNode* RBTree::getRoot(){
     return root;
 }
 
-// gets node's uncle
-RBNode* RBTree::getUncle(RBNode* node){
-    //uncle is node's parent's parent's other kid
-    //check if node's parent or grandparent exists, if not return null
-    if(node->parent == NULL || node->parent->parent == NULL){
-        return NULL;
-    }
-    else if(node->parent == node->parent->parent->right){
-        //checks if node's parent is on the right, if so uncle is left
-        return node->parent->parent->left;
-    }
-    else{ 
-        //since node's parent is not on right, then uncle is right
-        return node->parent->parent->right; 
-    }
-    //idk if something goes wrong
-    return NULL;
-
-}
-
 //return Index given name, if not found return -1
 int RBTree::getIndex(string name){
     RBNode* searchedNode = search(name);
@@ -71,7 +51,7 @@ int RBTree::getIndex(string name){
 }
 
 //rotate right given root and node
-void RBTree::rotateRight(RBNode* rt, RBNode* node){
+void RBTree::rotateRight(RBNode* &rt, RBNode* &node){
     //swap L and R children
     RBNode* nodeL = node->left;
     node->left = nodeL->right;
@@ -96,7 +76,7 @@ void RBTree::rotateRight(RBNode* rt, RBNode* node){
 }
 
 //rotate Left given root and node
-void RBTree::rotateLeft(RBNode* rt, RBNode* node){
+void RBTree::rotateLeft(RBNode* &rt, RBNode* &node){
     RBNode* nodeR = node->right;
     node->right = nodeR->left;
 
@@ -147,11 +127,13 @@ RBNode* RBTree::search(string name){
     RBNode* temp = root;
     if(temp == NULL){
         //could not find a node with string name
+        cout << "rbtree root is null" << endl;
         return NULL;
     }
 
     while(temp){
         //if find node with same string
+        cout << "temp->name: '" << temp->name <<"'"<< endl;
         if(name == temp->name){
             //return int 
             return temp;
@@ -166,11 +148,12 @@ RBNode* RBTree::search(string name){
         }
     }
     //if not found, return -1 to indicate not found
+    cout << "end while loop of search" << endl;
     return NULL;
 }
 
 //fixes all the colors and ordering after insert
-void RBTree::sort(RBNode* rt, RBNode* node){
+void RBTree::sort(RBNode* &rt, RBNode* &node){
     RBNode* nodeParent = NULL;
     RBNode* nodeGrandParent = NULL;
     RBNode* nodeUncle = NULL;
@@ -197,14 +180,12 @@ void RBTree::sort(RBNode* rt, RBNode* node){
                     nodeParent = node->parent;
                 }
                 //if ptr is right child of parent, left rotate
-                else{
-                    rotateLeft(rt,nodeGrandParent);
-                    //swap colors bewteen parent and gp
-                    string colorTemp = nodeParent->color;
-                    nodeParent->color = nodeGrandParent->color;
-                    nodeGrandParent->color = colorTemp;
-                    node = nodeParent;
-                }
+                rotateLeft(rt,nodeGrandParent);
+                //swap colors bewteen parent and gp
+                string colorTemp = nodeParent->color;
+                nodeParent->color = nodeGrandParent->color;
+                nodeGrandParent->color = colorTemp;
+                node = nodeParent;
             }// end else if nodeUncle->color == black or/and nodeUncle == NULL
         }
         else{ //nodeParent is on the left
@@ -224,15 +205,14 @@ void RBTree::sort(RBNode* rt, RBNode* node){
                     node = nodeParent;
                     nodeParent = node->parent;
                 }
-                else{ // node is left child, right rotate
-                    rotateRight(rt,nodeGrandParent);
-                    //swap colors bewteen parent and gp
-                    string colorTemp = nodeParent->color;
-                    nodeParent->color = nodeGrandParent->color;
-                    nodeGrandParent->color = colorTemp;
-                    node = nodeParent;
+               // node is left child, right rotate
+                rotateRight(rt,nodeGrandParent);
+                //swap colors bewteen parent and gp
+                string colorTemp = nodeParent->color;
+                nodeParent->color = nodeGrandParent->color;
+                nodeGrandParent->color = colorTemp;
+                node = nodeParent;
 
-                }
             }
 
         }
@@ -262,8 +242,10 @@ void RBTree::addUser(string name, int index){
 
     //then sort
     sort(root, temp);
+    cout << "'" << name <<  "'" << " has been added to rbTree!" << endl;
 }
 
+//sets a vector to indexes of all users in between lower and upper bound
 void RBTree::listInfo(vector<int> &v, RBNode* rt, string lowerName, string upperName){
     //base case
     if(rt == NULL){
