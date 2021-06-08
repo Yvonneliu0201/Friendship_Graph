@@ -36,7 +36,7 @@ string ProfileData::printUser(int index){
     char* userOccupation = new char[30];
 
     //assign values
-    ifstream myfile(outputFile, ios::binary);
+    ifstream myfile(outputFile, ios::binary | ofstream::app);
     myfile.seekg(53*index);
     myfile.read(userName,20);
     myfile.read(userAge,3);
@@ -48,13 +48,14 @@ string ProfileData::printUser(int index){
    return out;
 
 }
+
 //returns name of index
 string ProfileData::getName(int index) const{
     //using index and multiply by 53
     //open file and go to line index
     char* nameBuffer = new char[20];
 
-    ifstream myfile(outputFile,ios::binary);
+    ifstream myfile(outputFile,ios::binary | ofstream::app);
     myfile.seekg(53*index);
     myfile.read(nameBuffer,20);
     myfile.close();
@@ -69,7 +70,7 @@ string ProfileData::getAge(int index) const{
     //open file and go to line index
     char* ageBuffer = new char[3];
 
-    ifstream myfile(outputFile,ios::binary);
+    ifstream myfile(outputFile,ios::binary | ofstream::app);
     myfile.seekg(53*index+20); //skip the age
     myfile.read(ageBuffer,3);
     myfile.close();

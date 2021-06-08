@@ -58,7 +58,7 @@ int main(int argc, char** argv){
                 cout << "Insert an Occupation: ";
                 getline(cin,occupationInput);
             }
-            cout << "Insert a Friend List: (eg. friend,friend,friend) or empty" << endl;
+            cout << "Insert a Friend List: (eg. friend,friend,friend,) or empty" << endl;
             getline(cin,friendsInput);
 
             //input

@@ -49,7 +49,8 @@ Hub::Hub(string inputFile){
         fileIndex = records.getTotalSize();
         size++;
     }//end get lines
-
+    input.close();
+    
     //once done adding all users, then its time to add friends to graph
     //iterate allUserFriends
     //cout << "before adding friends" << endl;
@@ -66,7 +67,6 @@ Hub::Hub(string inputFile){
             //cout << "after .addFriend" << endl;
         }
     }
-    input.close();
 }
 
 int Hub::addUser(string name, string age, string occupation, string friends){   
