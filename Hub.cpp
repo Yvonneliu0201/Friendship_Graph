@@ -69,17 +69,48 @@ Hub::Hub(string inputFile){
     input.close();
 }
 
-int Hub::addUser(string name, string age, string occupation){   
+int Hub::addUser(string name, string age, string occupation, string friends){   
     // return int meanings
     // 0: success
     // 1: name exists
     // 2: length is wrong for either name, age, or occupation
+    // 3: a friend does not exist!
+    // 4: bad formatting of friends!
 
     //check if name exists in RB, if so, throw it
     if(rbTree.getIndex(name) != -1){
         //user exists
         return 1;
     }
+    //friends in format friend,friend,
+    //ends in comma
+    //checks if ends in comma
+    if(friends.length() > 0){
+        //if friends is not empty, go to last index and check if there is a comma, if not return 4
+        if(friends.at(friends.length()-1) != ','){
+            return 4;
+        }
+        //else it ends in a comma and its good
+    }
+
+    //then check if friends all exist
+    vector<string> fList;
+
+    for(int i = 0,j = 0; i < friends.size(); i++)
+    {
+
+        if(friends.at(i)==',' || friends.at(i)=='\0'){ // sep by commas or null char
+            cout << "Friend: '" << friends.substr(j,i-j) << "'" << endl;
+            if(!userExists(friends.substr(j,i-j))){
+                //user dne
+                return 3;
+            }
+            fList.push_back(friends.substr(j,i-j)); //pushing the sub string
+            j=i+1;
+        }
+    }
+    //check if 
+
     if(name.length() > 20 || age.length() > 3 || occupation.length() > 30){
         return 2; //length is wrong
     }
@@ -97,6 +128,14 @@ int Hub::addUser(string name, string age, string occupation){
         rbTree.addUser(name,records.getTotalSize()-1);
         //add to friendship graph with empty ll
         adjL.addUser(name);
+
+        //add friendships to adjL
+        for(vector<string>::iterator it = begin(fList); it != end(fList); ++it){
+            int index1 = rbTree.getIndex(name);
+            int index2 = rbTree.getIndex(*it);
+            adjL.addFriend(index1,index2);
+        }
+
         size++;
 
         //done 

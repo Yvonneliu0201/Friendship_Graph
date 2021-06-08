@@ -20,7 +20,7 @@ class Hub{
         //getters
         int getSize(){return size;}
         //insert a user
-        int addUser(string user, string age, string occupation);
+        int addUser(string user, string age, string occupation,string friends);
 
         //adds a friendship between user
         int addFriendship(string user1, string user2);

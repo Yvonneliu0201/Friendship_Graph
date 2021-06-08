@@ -43,6 +43,7 @@ int main(int argc, char** argv){
             string nameInput = "";
             string ageInput = "";
             string occupationInput = "";
+            string friendsInput = "";
             //prompt name, age, and occupation
             while(nameInput == ""){
                 cout << "Insert a Name: ";
@@ -57,8 +58,11 @@ int main(int argc, char** argv){
                 cout << "Insert an Occupation: ";
                 getline(cin,occupationInput);
             }
-            
-            int result = hub.addUser(nameInput,ageInput,occupationInput);
+            cout << "Insert a Friend List: (eg. friend,friend,friend) or empty" << endl;
+            getline(cin,friendsInput);
+
+            //input
+            int result = hub.addUser(nameInput,ageInput,occupationInput,friendsInput);
 
             if(result == 0){
                 cout << "-------User Added!-------" << endl;
@@ -68,6 +72,12 @@ int main(int argc, char** argv){
             }
             else if(result == 2){
                 cout << "---One of your inputs was too long!---" << endl;
+            }
+            else if(result == 3){
+                cout << "---One of your friends does not exist!---" << endl;
+            }
+            else if(result == 4){
+                cout << "---Bad Formatting in Friends---" << endl;
             }
             
             cout << "Press Enter to Return to Menu" << endl;
@@ -308,13 +318,9 @@ int main(int argc, char** argv){
                         getline(cin,name2);
                     }
                     
-                    if(hub.userExists(name1) && hub.userExists(name2)){
-                        cout << "-------------Start of PrintRange------------" << endl;
-                    }
+                    cout << "-------------Start of PrintRange------------" << endl;
                     cout << hub.printBtwn(name1,name2);
-                    if(hub.userExists(name1) && hub.userExists(name2)){
-                        cout << "-------------End of PrintRange--------------" << endl;
-                    }
+                    cout << "-------------End of PrintRange--------------" << endl;
                     cout << "Press Enter to Return to Range Query Menu" << endl;
                     cin.ignore();
                     rQuery = 0;
