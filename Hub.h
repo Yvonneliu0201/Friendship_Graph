@@ -29,10 +29,19 @@ class Hub{
         string printUser(string name);
         string printUser(int index);
 
+        //print user w/o friends
+        string printUserSimple(int index);
+
         //returns a string with all info
         string printAll();
+        string listFriendsAllInfo(string name);
         string listFriendsInfo(string name);
-        string printBtwn(string user1, string user2);
+        string listFriendsName(string name);
+        string listFriendsAge(string name);
+        string listFriendsOccu(string name);
+
+        string printBtwnExclusive(string user1, string user2); //only allows users that exist
+        string printBtwn(string user1, string user2); //any name can work
 
         //user exists?
         bool userExists(string name);

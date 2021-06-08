@@ -110,11 +110,15 @@ int Hub::addFriendship(string name1, string name2){
      // 0: success
      // 1: they are already friends
      // 2: one of the users does not exist
+     // 3: self inert
 
     int index1 = rbTree.getIndex(name1);
     int index2 = rbTree.getIndex(name2);
     // cout << "index1: " << index1 << endl;
     // cout << "index2: " << index2 << endl;
+    if(name1 == name2){ //self insert
+        return 3;
+    }
 
     if(index1 != -1 && index2 != -1){ //indexes exist, users exist
         if(adjL.areFriends(index1,index2)){
@@ -133,7 +137,7 @@ int Hub::addFriendship(string name1, string name2){
     }
 }
 
-//print user given name, no \n at end
+//print user (name,age,occupation,friends) given name, no \n at end
 string Hub::printUser(string name){
     //get index from rbtree
     int index = rbTree.getIndex(name);
@@ -182,6 +186,27 @@ string Hub::printUser(int index){
     }
 }
 
+//print user (name,age,occupation) given index, no \n at end
+string Hub::printUserSimple(int index){
+    if(!userExists(index)){
+        //user dne
+        string err = "Index is Out of Bounds";
+        return err;
+    }
+    else{
+        //user exists
+        //get strings with correct lengths
+        string name = records.getName(index).substr(0,nameLen[index]);
+        string age = records.getAge(index).substr(0,ageLen[index]);
+        string occupation = records.getOccupation(index).substr(0,occuLen[index]);
+
+        string user = "";
+        user = name + "," + age + "," + occupation;
+
+        return user;
+    }
+}
+
 //Print All, name, age, occupation, friend1, friend2, friend3, ...,
 string Hub::printAll(){
     //iterate through 0-records.filesize-1 
@@ -195,7 +220,7 @@ string Hub::printAll(){
 }
 
 //4. List FriendsInfo of user1: list name,age,occupation of all friends, assumming user1 exists
-string Hub::listFriendsInfo(string name){
+string Hub::listFriendsAllInfo(string name){
 
     int index = rbTree.getIndex(name);
     //check if user exists
@@ -209,7 +234,6 @@ string Hub::listFriendsInfo(string name){
         vector<int> friendIndexList;
         adjL.getFriendIndex(friendIndexList, index);
 
-        cout << name << "'s Friend List:" << endl;
         string friends = "";
         //iterate through friendIndexList
         for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
@@ -221,8 +245,108 @@ string Hub::listFriendsInfo(string name){
     }  
 }
 
-// 5. List all users ranging user1 to user2 inclusive: name, age, occupation, friendlist
-string Hub::printBtwn(string user1, string user2){
+//list name,age,occupation of all user's friends
+string Hub::listFriendsInfo(string name){
+    if(!userExists(name)){
+        //if user dne
+        string err = "User Does Not Exist!\n";
+        return err;
+    }
+    else{//user exists
+        int index = rbTree.getIndex(name);
+        //run function to list all friends info
+        //get vector<int> of all friends of index
+        vector<int> friendIndexList;
+        adjL.getFriendIndex(friendIndexList, index);
+
+        string friends = "";
+        //iterate through friendIndexList
+        for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
+            friends = friends + printUserSimple(*it) + "\n";
+        }
+
+        //once done, return friends
+        return friends;
+    }
+}
+
+//prints all names of user's friends
+string Hub::listFriendsName(string name){
+    if(!userExists(name)){
+        //if user dne
+        string err = "User Does Not Exist!\n";
+        return err;
+    }
+    else{//user exists
+        int index = rbTree.getIndex(name);
+        //run function to list all friends info
+        //get vector<int> of all friends of index
+        vector<int> friendIndexList;
+        adjL.getFriendIndex(friendIndexList, index);
+
+        string friends = "";
+        //iterate through friendIndexList
+        for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
+            friends = friends + records.getName(*it) + "\n";
+        }
+
+        //once done, return friends
+        return friends;
+    }
+}
+
+//prints all ages of user's friends
+string Hub::listFriendsAge(string name){
+    if(!userExists(name)){
+        //if user dne
+        string err = "User Does Not Exist!\n";
+        return err;
+    }
+    else{//user exists
+        int index = rbTree.getIndex(name);
+        //run function to list all friends info
+        //get vector<int> of all friends of index
+        vector<int> friendIndexList;
+        adjL.getFriendIndex(friendIndexList, index);
+
+        string friends = "";
+        //iterate through friendIndexList
+        for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
+            friends = friends + records.getAge(*it) + "\n";
+        }
+
+        //once done, return friends
+        return friends;
+    }
+}
+
+//prints all occupations of user's friends
+string Hub::listFriendsOccu(string name){
+    if(!userExists(name)){
+        //if user dne
+        string err = "User Does Not Exist!\n";
+        return err;
+    }
+    else{//user exists
+        int index = rbTree.getIndex(name);
+        //run function to list all friends info
+        //get vector<int> of all friends of index
+        vector<int> friendIndexList;
+        adjL.getFriendIndex(friendIndexList, index);
+
+        string friends = "";
+        //iterate through friendIndexList
+        for(vector<int>::iterator it = begin(friendIndexList); it != end(friendIndexList); ++it){
+            friends = friends + records.getOccupation(*it) + "\n";
+        }
+
+        //once done, return friends
+        return friends;
+    }
+}
+
+// 5. List all users ranging existing user1 to existing user2 inclusive: name, age, occupation
+string Hub::printBtwnExclusive(string user1, string user2){
     //do the function and print
     //check if name1 and name 2 are in the tree first
     if(rbTree.getIndex(user1) == -1 || rbTree.getIndex(user2) == -1){
@@ -239,12 +363,30 @@ string Hub::printBtwn(string user1, string user2){
         //order now has list in indexes, iterate through and print users inclusive
         for(vector<int>::iterator it = begin(order); it != end(order); ++it){
             
-            range = range + printUser(*it) + "\n";
+            range = range + printUserSimple(*it) + "\n";
         }
         
         //once done, return range
         return range;  
     }
+}
+
+// 5.5. List all users ranging any user1 to any user2 inclusive: name, age, occupation
+string Hub::printBtwn(string user1, string user2){
+    //do the function and print
+        //users are valid, then print
+        vector<int> order;
+        rbTree.listInfo(order, rbTree.getRoot(), user1, user2);
+
+        string range = "";
+        //order now has list in indexes, iterate through and print users inclusive
+        for(vector<int>::iterator it = begin(order); it != end(order); ++it){
+            
+            range = range + printUserSimple(*it) + "\n";
+        }
+        
+        //once done, return range
+        return range;  
 }
 
 bool Hub::userExists(string name){
