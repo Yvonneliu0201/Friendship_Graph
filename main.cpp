@@ -31,13 +31,13 @@ int main(int argc, char** argv){
     string rangeQueryMenu = "Range Queries:\n Menu Items:\n 1. Print All Users Between A and B (exclusive)\n 2. Print All Users Between A and B (any)\n 3. Go Back to Main Page\n Enter A Number: ";
 
     while(menuNum != 8){
-        system("CLS");
+        clear;
         cout << menu;
         cin >> menuNum;
 
         //insert new user
         if(menuNum == 1){ // addUser
-            system("CLS");
+            clear;
 
             cout << "1. Insert New User" << endl;
             string nameInput = "";
@@ -86,7 +86,7 @@ int main(int argc, char** argv){
 
         }// end addUser
         else if(menuNum == 2){ // addFriendship
-            system("CLS");
+            clear;
             cout << "2. Add Friendship between Two Users" << endl;
             //adds friendship between two users
             string name1 = "";
@@ -123,7 +123,7 @@ int main(int argc, char** argv){
 
         }// end addFriendship
         else if(menuNum == 3){ // printAll
-            system("CLS");
+            clear;
             cout << "3. Print All" << endl;
             //Print All, name, age, occupation, friend1, friend2, friend3, ...,
             cout << "---------start of PrintAll---------" << endl;
@@ -142,13 +142,13 @@ int main(int argc, char** argv){
             //4. Go to submenu for friendship queries
             int fQuery = 0;
             while(fQuery != 6){
-                system("CLS");
+                clear;
                 cout << friendshipQueryMenu;
                 cin >> fQuery;
 
                 // 1. Print all Friends Info and List
                 if(fQuery == 1){
-                    system("CLS");
+                    clear;
                     string name1 = "";
 
                     //ask for inputs
@@ -168,7 +168,7 @@ int main(int argc, char** argv){
                 }
                 // 2. Print all Friends Info
                 else if(fQuery == 2){
-                    system("CLS");
+                    clear;
                     string name1 = "";
 
                     //ask for inputs
@@ -188,7 +188,7 @@ int main(int argc, char** argv){
                 }
                 // 3. Print all Friends Name
                 else if(fQuery == 3){
-                    system("CLS");
+                    clear;
                     string name1 = "";
 
                     //ask for inputs
@@ -207,7 +207,7 @@ int main(int argc, char** argv){
                     
                 }
                 else if(fQuery == 4){
-                    system("CLS");
+                    clear;
                     string name1 = "";
 
                     //ask for inputs
@@ -226,7 +226,7 @@ int main(int argc, char** argv){
                     
                 }
                 else if(fQuery == 5){
-                    system("CLS");
+                    clear;
                     string name1 = "";
 
                     //ask for inputs
@@ -264,13 +264,13 @@ int main(int argc, char** argv){
             //5. Go to submenu for range queries
             int rQuery = 0;
             while(rQuery != 3){
-                system("CLS");
+                clear;
                 cout << rangeQueryMenu;
                 cin >> rQuery;
 
                 // 1. Print all Friends Info and List
                 if(rQuery == 1){
-                    system("CLS");
+                    clear;
                     cout << "1. Print all Users Btwn A and B (exclusive)" << endl;
                     // 5. List all users ranging user1 to user2 inclusive: name, age, occupation, friendlist
                     string name1 = "";
@@ -301,7 +301,7 @@ int main(int argc, char** argv){
                 }
                 // 2. Print all Friends Info
                 else if(rQuery == 2){
-                    system("CLS");
+                    clear;
                     cout << "2. Print all Users Btwn A and B (any)" << endl;
                     // 5. List all users ranging user1 to user2 inclusive: name, age, occupation, friendlist
                     string name1 = "";
@@ -346,7 +346,7 @@ int main(int argc, char** argv){
 
         }// end ListInfo(Lower,Upper)
         else if(menuNum == 6){ // printUser(int index)
-            system("CLS");
+            clear;
             
             cout << "6. Get User Info Given Index" << endl;
             // 6. Get User Info given index, print name, age, occupation, friendlist
@@ -371,7 +371,7 @@ int main(int argc, char** argv){
     
         }
         else if(menuNum == 7){ // printUser(string name)
-            system("CLS");
+            clear;
             cout << "7. Get User Info Given Name" << endl;
             //find user info by traversing rbtree
             string userInput = "";
