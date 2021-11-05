@@ -1,7 +1,7 @@
 # Friendship Graph
 Assignment 3, CMPSC 130A: Data Structures and Algorithms I
 
-[Official Instructions](https://github.com/Yvonneliu0201/Friendship_Graph/blob/main/Spring2021_CS130A_final_project.pdf)
+[Official Instructions](https://github.com/Yvonneliu0201/Friendship_Graph/blob/main/Official_Instructions.pdf)
 
 Brief Code Description:
 
